@@ -464,7 +464,7 @@
         }
 
         function showLoginModal() {
-            alert('Fonctionnalité de connexion - À développer avec le backend PHP');
+            window.window.location.href = "Auth/auth.php";
         }
 
         function showRegisterModal(type) {
