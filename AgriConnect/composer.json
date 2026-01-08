@@ -1,0 +1,17 @@
+{
+    "name": "pc/agri-connect",
+    "autoload": {
+        "psr-4": {
+            "Pc\\AgriConnect\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "elmasghatimohamed-cmd",
+            "email": "elmasghatimohamed@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
