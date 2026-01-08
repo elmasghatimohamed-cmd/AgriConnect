@@ -16,7 +16,7 @@
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <i class="fas fa-leaf text-green-600 text-2xl mr-2"></i>
-                        <span class="text-xl font-bold text-gray-800">AgriConnect</span>
+                        <span class="text-xl font-bold text-gray-800">AXOM</span>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -35,7 +35,7 @@
                 <div class="text-center mb-8">
                     <i class="fas fa-leaf text-green-600 text-4xl mb-4"></i>
                     <h2 class="text-3xl font-bold text-gray-900">Connexion</h2>
-                    <p class="text-gray-600 mt-2">Accédez à votre compte AgriConnect</p>
+                    <p class="text-gray-600 mt-2">Accédez à votre compte AXOM</p>
                 </div>
 
                 <?php if ($this->getFlash('error')): ?>

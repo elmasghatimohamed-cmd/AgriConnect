@@ -25,12 +25,23 @@ $router->get('/marketplace/product/{id}', 'MarketplaceController', 'showProduct'
 $router->get('/land-rental', 'LandRentalController', 'index');
 $router->get('/land-rental/{id}', 'LandRentalController', 'showLand');
 $router->get('/dashboard', 'DashboardController', 'index');
+$router->get('/profile', 'ProfileController', 'index');
 $router->get('/messages', 'MessageController', 'index');
+
+// Services Routes
+$router->get('/services', 'ServicesController', 'index');
+$router->get('/services/logistics', 'ServicesController', 'logistics');
+$router->get('/services/sensors', 'ServicesController', 'sensors');
+$router->get('/services/weather', 'ServicesController', 'weather');
+$router->get('/services/statistics', 'ServicesController', 'statistics');
 
 // API Routes
 $router->get('/api/products', 'ApiController', 'products');
 $router->get('/api/lands', 'ApiController', 'lands');
 $router->get('/api/messages', 'ApiController', 'messages');
+$router->get('/api/sensors', 'ApiController', 'sensorData');
+$router->get('/api/weather', 'ApiController', 'weatherData');
+$router->get('/api/statistics', 'ApiController', 'agriculturalStatistics');
 
 $router->dispatch();
 

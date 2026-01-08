@@ -109,4 +109,105 @@ class ApiController extends BaseController {
 
         $this->json($messages);
     }
+    
+    public function sensorData(): void {
+        $this->json([
+            'sensors' => [
+                [
+                    'id' => 1,
+                    'name' => 'Capteur Humidité Sol #1',
+                    'type' => 'humidity',
+                    'value' => 65,
+                    'unit' => '%',
+                    'status' => 'active',
+                    'location' => 'Champ A',
+                    'lastUpdate' => '2024-01-08 14:30:00'
+                ],
+                [
+                    'id' => 2,
+                    'name' => 'Capteur Température #1',
+                    'type' => 'temperature',
+                    'value' => 24,
+                    'unit' => '°C',
+                    'status' => 'active',
+                    'location' => 'Serre 1',
+                    'lastUpdate' => '2024-01-08 14:25:00'
+                ],
+                [
+                    'id' => 3,
+                    'name' => 'Capteur NPK #1',
+                    'type' => 'nutrients',
+                    'value' => ['N' => 45, 'P' => 30, 'K' => 25],
+                    'unit' => 'mg/kg',
+                    'status' => 'active',
+                    'location' => 'Champ B',
+                    'lastUpdate' => '2024-01-08 14:20:00'
+                ]
+            ]
+        ]);
+    }
+    
+    public function weatherData(): void {
+        $this->json([
+            'current' => [
+                'temperature' => 24,
+                'humidity' => 65,
+                'windSpeed' => 12,
+                'windDirection' => 'NE',
+                'pressure' => 1013,
+                'uvIndex' => 6,
+                'precipitation' => 0
+            ],
+            'forecast' => [
+                ['day' => 'Aujourd\'hui', 'temp_min' => 18, 'temp_max' => 26, 'condition' => 'Ensoleillé', 'rain' => 0],
+                ['day' => 'Demain', 'temp_min' => 16, 'temp_max' => 24, 'condition' => 'Nuageux', 'rain' => 20],
+                ['day' => 'Après-demain', 'temp_min' => 15, 'temp_max' => 22, 'condition' => 'Pluvieux', 'rain' => 80]
+            ],
+            'seasonal' => [
+                'currentSeason' => 'Hiver',
+                'recommendedCrops' => ['Blé', 'Orge', 'Fèves', 'Petits pois'],
+                'frostRisk' => 'medium',
+                'optimalPlanting' => 'Février-Mars'
+            ]
+        ]);
+    }
+    
+    public function agriculturalStatistics(): void {
+        $this->json([
+            'production' => [
+                'currentYear' => [
+                    'carrots' => 2500,
+                    'tomatoes' => 3200,
+                    'potatoes' => 4800,
+                    'wheat' => 12000
+                ],
+                'previousYear' => [
+                    'carrots' => 2200,
+                    'tomatoes' => 2800,
+                    'potatoes' => 4500,
+                    'wheat' => 11000
+                ]
+            ],
+            'market' => [
+                'averagePrices' => [
+                    'carrots' => 15,
+                    'tomatoes' => 12,
+                    'potatoes' => 8,
+                    'wheat' => 25
+                ],
+                'trends' => [
+                    'carrots' => '+8%',
+                    'tomatoes' => '+12%',
+                    'potatoes' => '-3%',
+                    'wheat' => '+5%'
+                ]
+            ],
+            'efficiency' => [
+                'waterUsage' => 85,
+                'fertilizerUsage' => 92,
+                'cropYield' => 78,
+                'overall' => 85
+            ]
+        ]);
+    }
 }

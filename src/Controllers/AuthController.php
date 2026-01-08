@@ -6,6 +6,12 @@ use Pc\AgriConnect\Core\BaseController;
 
 class AuthController extends BaseController {
     public function showLogin(): void {
+        // Rediriger si déjà connecté
+        if ($this->isLoggedIn()) {
+            $this->redirect('/dashboard');
+            return;
+        }
+        
         $this->render('auth.login', [
             'pageTitle' => 'Connexion - AgriConnect'
         ]);
@@ -22,7 +28,9 @@ class AuthController extends BaseController {
             return;
         }
 
+        // Simuler une connexion réussie (en réalité, vérifier dans la base de données)
         $this->setSession('user', [
+            'name' => 'Utilisateur Test', // Normalement récupéré de la base de données
             'email' => $email,
             'type' => $userType,
             'logged_in' => true
@@ -33,12 +41,24 @@ class AuthController extends BaseController {
     }
 
     public function showFarmerRegister(): void {
+        // Rediriger si déjà connecté
+        if ($this->isLoggedIn()) {
+            $this->redirect('/dashboard');
+            return;
+        }
+        
         $this->render('auth.register-farmer', [
             'pageTitle' => 'Inscription Agriculteur - AgriConnect'
         ]);
     }
 
     public function showBuyerRegister(): void {
+        // Rediriger si déjà connecté
+        if ($this->isLoggedIn()) {
+            $this->redirect('/dashboard');
+            return;
+        }
+        
         $this->render('auth.register-buyer', [
             'pageTitle' => 'Inscription Acheteur - AgriConnect'
         ]);

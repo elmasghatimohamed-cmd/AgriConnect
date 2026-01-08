@@ -15,7 +15,7 @@
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <i class="fas fa-leaf text-green-600 text-2xl mr-2"></i>
-                        <span class="text-xl font-bold text-gray-800">AgriConnect</span>
+                        <span class="text-xl font-bold text-gray-800">AXOM</span>
                     </div>
                     <div class="hidden md:flex ml-10 space-x-8">
                         <a href="/" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">Accueil</a>

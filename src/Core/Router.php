@@ -43,67 +43,23 @@ class Router {
         if ($requestUri === '') {
             $requestUri = '/';
         }
-        
-        // Routes importantes à déboguer
-        $importantRoutes = ['/', '/marketplace', '/land-rental', '/login', '/register/farmer', '/register/buyer'];
-        
-        echo "<!-- DEBUG: Request Method: " . $requestMethod . " -->";
-        echo "<!-- DEBUG: Request URI: '" . $requestUri . "' -->";
-        echo "<!-- DEBUG: Base Path: '" . $this->basePath . "' -->";
-        echo "<!-- DEBUG: Routes count: " . count($this->routes) . " -->";
-        
-        // Vérifier si c'est une route importante
-        if (in_array($requestUri, $importantRoutes)) {
-            echo "<!-- DEBUG: *** ROUTE IMPORTANTE DETECTEE: " . $requestUri . " *** -->";
-        }
 
-        foreach ($this->routes as $index => $route) {
-            $routePath = str_replace('#^' . $this->basePath, '', $route['pattern']);
-            $routePath = str_replace('$#', '', $routePath);
-            
-            echo "<!-- DEBUG: Route $index: " . $route['method'] . " " . $routePath . " (pattern: " . $route['pattern'] . ") -> " . $route['controller'] . "::" . $route['action'] . " -->";
-            
-            // Débogage détaillé pour les routes importantes
-            if (in_array($routePath, $importantRoutes) || in_array($requestUri, $importantRoutes)) {
-                echo "<!-- DEBUG: *** VERIFICATION ROUTE $index *** -->";
-                echo "<!-- DEBUG: Method match: " . ($route['method'] === $requestMethod ? 'YES' : 'NO') . " -->";
-                echo "<!-- DEBUG: Pattern test: " . $route['pattern'] . " against '" . $requestUri . "' -->";
-                if (preg_match($route['pattern'], $requestUri, $matches)) {
-                    echo "<!-- DEBUG: Regex match: YES -->";
-                    echo "<!-- DEBUG: Matches: " . json_encode($matches) . " -->";
-                } else {
-                    echo "<!-- DEBUG: Regex match: NO -->";
-                }
-            }
-            
+        foreach ($this->routes as $route) {
             if ($route['method'] === $requestMethod && preg_match($route['pattern'], $requestUri, $matches)) {
-                echo "<!-- DEBUG: *** ROUTE $index MATCHED! *** -->";
                 array_shift($matches);
                 $route['params'] = $matches;
                 
                 $controllerClass = "Pc\\AgriConnect\\Controllers\\{$route['controller']}";
-                echo "<!-- DEBUG: Controller class: " . $controllerClass . " -->";
-                echo "<!-- DEBUG: Class exists: " . (class_exists($controllerClass) ? 'YES' : 'NO') . " -->";
-                
                 if (class_exists($controllerClass)) {
                     $controller = new $controllerClass();
-                    echo "<!-- DEBUG: Method: " . $route['action'] . " -->";
-                    echo "<!-- DEBUG: Method exists: " . (method_exists($controller, $route['action']) ? 'YES' : 'NO') . " -->";
-                    
                     if (method_exists($controller, $route['action'])) {
-                        echo "<!-- DEBUG: *** APPEL DE LA METHODE " . $route['action'] . " *** -->";
                         call_user_func_array([$controller, $route['action']], $route['params']);
                         return;
-                    } else {
-                        echo "<!-- DEBUG: ERROR: Method " . $route['action'] . " does not exist -->";
                     }
-                } else {
-                    echo "<!-- DEBUG: ERROR: Controller class " . $controllerClass . " does not exist -->";
                 }
             }
         }
 
-        echo "<!-- DEBUG: *** AUCUNE ROUTE MATCH - RENDER 404 *** -->";
         http_response_code(404);
         $this->render404();
     }

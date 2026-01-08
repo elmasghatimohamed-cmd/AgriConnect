@@ -15,7 +15,7 @@
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <i class="fas fa-leaf text-green-600 text-2xl mr-2"></i>
-                        <span class="text-xl font-bold text-gray-800">AgriConnect</span>
+                        <span class="text-xl font-bold text-gray-800">AXOM</span>
                     </div>
                     <div class="hidden md:flex ml-10 space-x-8">
                         <a href="/" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">Accueil</a>
@@ -125,7 +125,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1546630997-3e1b4645382c?w=400&h=300&fit=crop" 
-                             alt="Tomates bio" class="w-full h-48 object-cover">
+                             alt="Tomates cerises fraîches du Maroc" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Bio
                         </div>
@@ -171,7 +171,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?w=400&h=300&fit=crop" 
-                             alt="Oranges" class="w-full h-48 object-cover">
+                             alt="Oranges sanguines du Souss" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-orange-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Premium
                         </div>
@@ -216,8 +216,8 @@
                 <!-- Product Card 3 -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1581375380449-1d88a025c14e?w=400&h=300&fit=crop" 
-                             alt="Lait frais" class="w-full h-48 object-cover">
+                        <img src="https://images.unsplash.com/photo-15943832297-6a2b6c7d8d6c?w=400&h=300&fit=crop" 
+                             alt="Panier de légumes marocains colorés" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Laitier
                         </div>
@@ -262,8 +262,8 @@
                 <!-- Product Card 4 -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1598300042247-d088f8263f66?w=400&h=300&fit=crop" 
-                             alt="Œufs fermiers" class="w-full h-48 object-cover">
+                        <img src="https://images.unsplash.com/photo-1542828223-001c0095f5f8b8d8d6c?w=400&h=300&fit=crop" 
+                             alt="Fromage de chèvre artisanal marocain" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-yellow-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Fermier
                         </div>
@@ -309,7 +309,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1577234286642-fc512a5f8f11?w=400&h=300&fit=crop" 
-                             alt="Miel d'abeille" class="w-full h-48 object-cover">
+                             alt="Miel artisanal du Haut Atlas marocain" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-amber-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Artisanal
                         </div>
@@ -355,7 +355,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1593175086247-632fb85e3e6f?w=400&h=300&fit=crop" 
-                             alt="Carottes" class="w-full h-48 object-cover">
+                             alt="Carottes nouvelles du Maroc" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Bio
                         </div>
@@ -401,7 +401,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1447196147524-d1d0b6d5e7f6?w=400&h=300&fit=crop" 
-                             alt="Olive oil" class="w-full h-48 object-cover">
+                             alt="Huile d'olive extra vierge du Maroc" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-green-800 text-white px-2 py-1 rounded text-xs font-semibold">
                             AOP
                         </div>
@@ -447,7 +447,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop" 
-                             alt="Poulet fermier" class="w-full h-48 object-cover">
+                             alt="Poulet fermier label rouge marocain" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Fermier
                         </div>

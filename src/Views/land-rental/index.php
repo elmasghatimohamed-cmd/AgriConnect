@@ -15,7 +15,7 @@
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <i class="fas fa-leaf text-green-600 text-2xl mr-2"></i>
-                        <span class="text-xl font-bold text-gray-800">AgriConnect</span>
+                        <span class="text-xl font-bold text-gray-800">AXOM</span>
                     </div>
                     <div class="hidden md:flex ml-10 space-x-8">
                         <a href="/" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">Accueil</a>
@@ -126,8 +126,8 @@
                 <!-- Land Card 1 -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1590736969955-71cc94901144?w=400&h=250&fit=crop" 
-                             alt="Terrain agricole" class="w-full h-48 object-cover">
+                        <img src="https://images.unsplash.com/photo-1560573824016-e60e11b3cfa5?w=400&h=250&fit=crop" 
+                             alt="Terrain agricole avec champs verdoyants" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Terres arables
                         </div>
@@ -177,7 +177,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=400&h=250&fit=crop" 
-                             alt="Verger" class="w-full h-48 object-cover">
+                             alt="Verger avec pommiers en fleurs" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-orange-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Vergers
                         </div>
@@ -227,7 +227,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1580837119756-563d608dd119?w=400&h=250&fit=crop" 
-                             alt="Serres agricoles" class="w-full h-48 object-cover">
+                             alt="Serres agricoles modernes" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-purple-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Serres
                         </div>
@@ -277,7 +277,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1598175048155-1e5e5b8d8d6c?w=400&h=250&fit=crop" 
-                             alt="Vignes" class="w-full h-48 object-cover">
+                             alt="Vignes luxuriantes au coucher du soleil" class="w-full h-48 object-cover">
                         <div class="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold">
                             Vignes
                         </div>

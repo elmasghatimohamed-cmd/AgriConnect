@@ -15,7 +15,7 @@
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <i class="fas fa-leaf text-green-600 text-2xl mr-2"></i>
-                        <span class="text-xl font-bold text-gray-800">AgriConnect</span>
+                        <span class="text-xl font-bold text-gray-800">AXOM</span>
                     </div>
                 </div>
                 <div class="flex items-center">
