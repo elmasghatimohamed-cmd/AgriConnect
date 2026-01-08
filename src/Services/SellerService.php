@@ -13,8 +13,14 @@ class SellerService
         $this->db = $db;
     }
 
-    public function createProduct(int $sellerId, array $productData): bool
+    public function createProduct(int $sellerId, array $productData): array
     {
+        // Validate product data
+        $validation = $this->validateProductData($productData);
+        if (!$validation['success']) {
+            return $validation;
+        }
+
         try {
             $type = $productData['type'];
 
@@ -37,13 +43,22 @@ class SellerService
 
             if (!$result) {
                 $this->db->rollBack();
-                return false;
+                return [
+                    'success' => false,
+                    'message' => 'Failed to create product'
+                ];
             }
 
             $productId = $this->db->lastInsertId();
 
             // Insert type-specific data
             if ($type === 'crop') {
+                $validation = $this->validateCropData($productData);
+                if (!$validation['success']) {
+                    $this->db->rollBack();
+                    return $validation;
+                }
+
                 $stmt = $this->db->prepare(
                     "INSERT INTO crops (product_id, cultivation_date, quality) 
                      VALUES (?, ?, ?)"
@@ -54,6 +69,12 @@ class SellerService
                     $productData['quality']
                 ]);
             } elseif ($type === 'land') {
+                $validation = $this->validateLandData($productData);
+                if (!$validation['success']) {
+                    $this->db->rollBack();
+                    return $validation;
+                }
+
                 $stmt = $this->db->prepare(
                     "INSERT INTO lands (product_id, size, location, weather, quality) 
                      VALUES (?, ?, ?, ?, ?)"
@@ -65,29 +86,57 @@ class SellerService
                     $productData['weather'],
                     $productData['quality']
                 ]);
+            } else {
+                $this->db->rollBack();
+                return [
+                    'success' => false,
+                    'message' => 'Invalid product type'
+                ];
             }
 
             if ($result) {
                 $this->db->commit();
-                return true;
+                return [
+                    'success' => true,
+                    'message' => 'Product created successfully',
+                    'product_id' => $productId
+                ];
             } else {
                 $this->db->rollBack();
-                return false;
+                return [
+                    'success' => false,
+                    'message' => 'Failed to create product details'
+                ];
             }
         } catch (\PDOException $e) {
             $this->db->rollBack();
-            return false;
+            return [
+                'success' => false,
+                'message' => 'Database error: ' . $e->getMessage()
+            ];
         }
     }
 
-    public function updateProduct(int $productId, int $sellerId, array $productData): bool
+    public function updateProduct(int $productId, int $sellerId, array $productData): array
     {
-        try {
-            // Verify ownership
-            if (!$this->verifyProductOwnership($productId, $sellerId)) {
-                return false;
-            }
+        // Verify ownership
+        if (!$this->verifyProductOwnership($productId, $sellerId)) {
+            return [
+                'success' => false,
+                'message' => 'You do not have permission to update this product'
+            ];
+        }
 
+        // Check if product exists
+        $product = $this->getProductById($productId);
+        if (!$product) {
+            return [
+                'success' => false,
+                'message' => 'Product not found'
+            ];
+        }
+
+        try {
             $this->db->beginTransaction();
 
             // Update base product
@@ -96,6 +145,14 @@ class SellerService
 
             foreach (['title', 'description', 'price', 'status'] as $field) {
                 if (isset($productData[$field])) {
+                    // Validate price
+                    if ($field === 'price' && $productData[$field] <= 0) {
+                        $this->db->rollBack();
+                        return [
+                            'success' => false,
+                            'message' => 'Price must be greater than 0'
+                        ];
+                    }
                     $fields[] = "$field = ?";
                     $values[] = $productData[$field];
                 }
@@ -109,8 +166,6 @@ class SellerService
             }
 
             // Update type-specific data
-            $product = $this->getProductType($productId);
-
             if ($product['type'] === 'crop' && isset($productData['cultivation_date'])) {
                 $stmt = $this->db->prepare(
                     "UPDATE crops SET cultivation_date = ?, quality = ? WHERE product_id = ?"
@@ -126,6 +181,14 @@ class SellerService
 
                 foreach (['size', 'location', 'weather', 'quality'] as $field) {
                     if (isset($productData[$field])) {
+                        // Validate size
+                        if ($field === 'size' && $productData[$field] <= 0) {
+                            $this->db->rollBack();
+                            return [
+                                'success' => false,
+                                'message' => 'Size must be greater than 0'
+                            ];
+                        }
                         $fields[] = "$field = ?";
                         $values[] = $productData[$field];
                     }
@@ -140,25 +203,57 @@ class SellerService
             }
 
             $this->db->commit();
-            return true;
+            return [
+                'success' => true,
+                'message' => 'Product updated successfully'
+            ];
         } catch (\PDOException $e) {
             $this->db->rollBack();
-            return false;
+            return [
+                'success' => false,
+                'message' => 'Database error: ' . $e->getMessage()
+            ];
         }
     }
 
-    public function deleteProduct(int $productId, int $sellerId): bool
+    public function deleteProduct(int $productId, int $sellerId): array
     {
+        // Verify ownership
+        if (!$this->verifyProductOwnership($productId, $sellerId)) {
+            return [
+                'success' => false,
+                'message' => 'You do not have permission to delete this product'
+            ];
+        }
+
+        // Check if product has active purchases or rentals
+        if ($this->hasActivePurchases($productId)) {
+            return [
+                'success' => false,
+                'message' => 'Cannot delete product with active purchases'
+            ];
+        }
+
         try {
-            // Verify ownership
-            if (!$this->verifyProductOwnership($productId, $sellerId)) {
-                return false;
+            $stmt = $this->db->prepare("DELETE FROM products WHERE id = ?");
+            $result = $stmt->execute([$productId]);
+
+            if ($result) {
+                return [
+                    'success' => true,
+                    'message' => 'Product deleted successfully'
+                ];
             }
 
-            $stmt = $this->db->prepare("DELETE FROM products WHERE id = ?");
-            return $stmt->execute([$productId]);
+            return [
+                'success' => false,
+                'message' => 'Failed to delete product'
+            ];
         } catch (\PDOException $e) {
-            return false;
+            return [
+                'success' => false,
+                'message' => 'Database error: ' . $e->getMessage()
+            ];
         }
     }
 
@@ -207,6 +302,88 @@ class SellerService
         }
     }
 
+    // Validation helper methods
+    private function validateProductData(array $data): array
+    {
+        $requiredFields = ['title', 'description', 'price', 'type'];
+        
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field]) || empty($data[$field])) {
+                return [
+                    'success' => false,
+                    'message' => ucfirst($field) . ' is required'
+                ];
+            }
+        }
+
+        if (!is_numeric($data['price']) || $data['price'] <= 0) {
+            return [
+                'success' => false,
+                'message' => 'Price must be a positive number'
+            ];
+        }
+
+        if (!in_array($data['type'], ['crop', 'land'])) {
+            return [
+                'success' => false,
+                'message' => 'Product type must be either crop or land'
+            ];
+        }
+
+        return ['success' => true];
+    }
+
+    private function validateCropData(array $data): array
+    {
+        if (!isset($data['cultivation_date']) || empty($data['cultivation_date'])) {
+            return [
+                'success' => false,
+                'message' => 'Cultivation date is required for crops'
+            ];
+        }
+
+        if (!isset($data['quality']) || empty($data['quality'])) {
+            return [
+                'success' => false,
+                'message' => 'Quality is required for crops'
+            ];
+        }
+
+        // Validate date format
+        if (strtotime($data['cultivation_date']) === false) {
+            return [
+                'success' => false,
+                'message' => 'Invalid cultivation date format'
+            ];
+        }
+
+        return ['success' => true];
+    }
+
+    private function validateLandData(array $data): array
+    {
+        $requiredFields = ['size', 'location', 'weather', 'quality'];
+        
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field]) || empty($data[$field])) {
+                return [
+                    'success' => false,
+                    'message' => ucfirst($field) . ' is required for land'
+                ];
+            }
+        }
+
+        if (!is_numeric($data['size']) || $data['size'] <= 0) {
+            return [
+                'success' => false,
+                'message' => 'Size must be a positive number'
+            ];
+        }
+
+        return ['success' => true];
+    }
+
+    // Helper methods
     private function verifyProductOwnership(int $productId, int $sellerId): bool
     {
         try {
@@ -220,14 +397,26 @@ class SellerService
         }
     }
 
-    private function getProductType(int $productId): ?array
+    private function getProductById(int $productId): ?array
     {
         try {
-            $stmt = $this->db->prepare("SELECT type FROM products WHERE id = ?");
+            $stmt = $this->db->prepare("SELECT * FROM products WHERE id = ?");
             $stmt->execute([$productId]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ?: null;
         } catch (\PDOException $e) {
             return null;
+        }
+    }
+
+    private function hasActivePurchases(int $productId): bool
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT id FROM purchases WHERE product_id = ?");
+            $stmt->execute([$productId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+        } catch (\PDOException $e) {
+            return false;
         }
     }
 }
